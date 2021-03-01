@@ -1,4 +1,5 @@
 import { firestore } from "../lib/firebase";
+import { Container } from "./styles";
 
 const RecipeForm = () => {
   const recipesRef = firestore.collection("recipes");
