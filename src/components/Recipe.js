@@ -1,4 +1,6 @@
 import React from "react";
+
+import { firestore } from "../lib/firebase";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
@@ -27,6 +29,17 @@ const Recipe = (props) => {
   const classes = useStyles();
   const bull = <span className={classes.bullet}>•</span>;
   const { title, description, method, id } = props;
+  const selectedRecipe = firestore.collection("recipes").doc(id);
+  const deleteRecipe = () => {
+    selectedRecipe
+      .delete()
+      .then(() => {
+        console.log("Recipe Deleted");
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
   return (
     <>
       <Card className={classes.root}>
@@ -49,7 +62,9 @@ const Recipe = (props) => {
           </Typography>
         </CardContent>
         <CardActions>
-          <Button size="small">Learn More</Button>
+          <Button onClick={deleteRecipe} size="small">
+            Delete
+          </Button>
         </CardActions>
       </Card>
     </>
